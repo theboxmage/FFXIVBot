@@ -32,7 +32,7 @@ public class CommandMap {
 
     public void execute(CustomEvent event) {
 
-        DiscordCommand command = commandMap.get(event.getArgs()[0]);
+        DiscordCommand command = commandMap.get(event.getArgs()[0].toLowerCase());
         if(command != null){
             command.execute(event);
         }
