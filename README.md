@@ -1,2 +1,2 @@
 # FFXIVBot
-Bot for my FFXIV FC, Angels of Darkness, implementation instructions will be added later.
+Bot for my FFXIV FC, Faylinn, implementation instructions will be added later.
