@@ -1,0 +1,4 @@
+discordbot:
+  token:
+  prefix: !
+  ffxivapikey:
