@@ -27,12 +27,17 @@ public class FiredrillCommand extends AbstractCommand {
     public void execute(CustomEvent event) {
         MessageCreateEvent messageCreateEvent = (MessageCreateEvent)event.getEvent();
         String messageArgs[] = messageCreateEvent.getMessageContent().split(" ");
+        Long userID = messageCreateEvent.getMessageAuthor().getId();
 
+        if(messageArgs.length > 1 && messageArgs[1].contains("@")) {
+            userID = Long.parseLong(messageArgs[1].substring(3, messageArgs[1].length()-1));
+        }
+        Long finalUserID = userID;
         messageCreateEvent.getServer().ifPresent(server -> {
             List<ServerVoiceChannel> voiceChannels = server.getVoiceChannels();
             ServerVoiceChannel mainVoiceChannel = null;
             for (ServerVoiceChannel voiceChannel : voiceChannels) {
-                if(voiceChannel.isConnected(messageCreateEvent.getMessageAuthor().getId()))
+                if(voiceChannel.isConnected(finalUserID))
                 {
                     mainVoiceChannel = voiceChannel;
                     break;
