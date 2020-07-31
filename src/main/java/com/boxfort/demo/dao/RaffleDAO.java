@@ -1,7 +1,6 @@
 package com.boxfort.demo.dao;
 
 import com.boxfort.demo.Entities.Raffle;
-import com.boxfort.demo.Entities.RaffleMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,3 +11,5 @@ public interface RaffleDAO extends JpaRepository<Raffle, Long> {
     @Query("select r FROM Raffle r WHERE r.id > :ID")
     Set<Raffle> findByRaffleIdGreaterThanX(@Param("ID") Long id);
 }
+
+

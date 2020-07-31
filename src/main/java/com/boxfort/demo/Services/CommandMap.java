@@ -1,15 +1,13 @@
 package com.boxfort.demo.Services;
 
-import com.boxfort.demo.Abstracts.AbstractCommand;
 import com.boxfort.demo.Abstracts.CustomEvent;
 import com.boxfort.demo.Interfaces.DiscordCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -33,7 +31,7 @@ public class CommandMap {
     public void execute(CustomEvent event) {
 
         DiscordCommand command = commandMap.get(event.getArgs()[0].toLowerCase());
-        if(command != null){
+        if (command != null) {
             command.execute(event);
         }
     }

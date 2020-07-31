@@ -10,41 +10,41 @@ import org.javacord.api.event.message.MessageCreateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 @Component
 public class FiredrillCommand extends AbstractCommand {
 
 
     @Autowired
-    public FiredrillCommand()
-    {
+    public FiredrillCommand() {
         super("ChineseFireDrill");
     }
 
 
     @Override
     public void execute(CustomEvent event) {
-        MessageCreateEvent messageCreateEvent = (MessageCreateEvent)event.getEvent();
+        MessageCreateEvent messageCreateEvent = (MessageCreateEvent) event.getEvent();
         String messageArgs[] = messageCreateEvent.getMessageContent().split(" ");
         Long userID = messageCreateEvent.getMessageAuthor().getId();
 
-        if(messageArgs.length > 1 && messageArgs[1].contains("@")) {
-            userID = Long.parseLong(messageArgs[1].substring(3, messageArgs[1].length()-1));
+        if (messageArgs.length > 1 && messageArgs[1].contains("@")) {
+            userID = Long.parseLong(messageArgs[1].substring(3, messageArgs[1].length() - 1));
         }
         Long finalUserID = userID;
         messageCreateEvent.getServer().ifPresent(server -> {
             List<ServerVoiceChannel> voiceChannels = server.getVoiceChannels();
             ServerVoiceChannel mainVoiceChannel = null;
             for (ServerVoiceChannel voiceChannel : voiceChannels) {
-                if(voiceChannel.isConnected(finalUserID))
-                {
+                if (voiceChannel.isConnected(finalUserID)) {
                     mainVoiceChannel = voiceChannel;
                     break;
                 }
             }
-            if(mainVoiceChannel != null)
-            {
+            if (mainVoiceChannel != null) {
                 Set<UserStatus> userStatuses = new HashSet<UserStatus>();
 
                 ServerVoiceChannel finalMainVoiceChannel = mainVoiceChannel;
@@ -52,7 +52,7 @@ public class FiredrillCommand extends AbstractCommand {
                 mainVoiceChannel.getConnectedUsers().forEach(user -> {
                     userStatuses.add(new UserStatus(user, finalMainVoiceChannel));
                 });
-                for(int i = 0; i < 3; i++) {
+                for (int i = 0; i < 3; i++) {
                     userStatuses.forEach(userStatus -> {
                         server.moveUser(userStatus.getUser(), getNewRandomVoiceChannel(voiceChannels, userStatus));
                     });
@@ -65,11 +65,11 @@ public class FiredrillCommand extends AbstractCommand {
     private ServerVoiceChannel getNewRandomVoiceChannel(List<ServerVoiceChannel> voiceChannels, UserStatus userStatus) {
         Random random = new Random();
         ServerVoiceChannel serverVoiceChannel = null;
-        if(voiceChannels.size() == 1) return voiceChannels.get(0);
-        do{
+        if (voiceChannels.size() == 1) return voiceChannels.get(0);
+        do {
             int index = random.nextInt(voiceChannels.size());
             serverVoiceChannel = voiceChannels.get(index);
-        } while(serverVoiceChannel != null && serverVoiceChannel.getId() == userStatus.getChannel().getId());
+        } while (serverVoiceChannel != null && serverVoiceChannel.getId() == userStatus.getChannel().getId());
         userStatus.setChannel(serverVoiceChannel);
         return serverVoiceChannel;
     }
@@ -80,8 +80,8 @@ public class FiredrillCommand extends AbstractCommand {
         private ServerVoiceChannel channel;
         @Getter
         private final User user;
-        public UserStatus(User user, ServerVoiceChannel channel)
-        {
+
+        public UserStatus(User user, ServerVoiceChannel channel) {
             this.channel = channel;
             this.user = user;
         }

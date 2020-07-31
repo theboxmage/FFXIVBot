@@ -14,12 +14,13 @@ import java.awt.*;
 public class PingCommand extends AbstractCommand {
 
     @Autowired
-    public PingCommand(RestTemplate restTemplate)
-    {
+    public PingCommand(RestTemplate restTemplate) {
         super("ping");
         this.restTemplate = restTemplate;
     }
+
     private final RestTemplate restTemplate;
+
     @Override
     public void execute(CustomEvent event) {
         MessageCreateEvent messageCreateEvent = (MessageCreateEvent) event.getEvent();

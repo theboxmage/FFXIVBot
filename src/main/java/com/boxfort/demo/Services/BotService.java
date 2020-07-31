@@ -34,10 +34,8 @@ public class BotService {
     private void createDefaultListeners() {
         this.getDiscordApi().addMessageCreateListener(messageCreateEvent -> {
             String message = messageCreateEvent.getMessageContent();
-            if(!messageCreateEvent.getMessageAuthor().asUser().map(User::isBot).orElse(false))
-            {
-                if(message.length() > 0 && message.startsWith(discordBotConfiguration.getPrefix()))
-                {
+            if (!messageCreateEvent.getMessageAuthor().asUser().map(User::isBot).orElse(false)) {
+                if (message.length() > 0 && message.startsWith(discordBotConfiguration.getPrefix())) {
                     commandMap.execute(new CustomEvent(messageCreateEvent));
                 }
             }
